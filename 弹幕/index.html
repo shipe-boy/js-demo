@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body,input{margin:0;padding:0;}
+        li{list-style:none;}
+        a{text-decoration: none;}
+        body,html{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        body{
+            background: linear-gradient(to bottom, #add8e6 0% ,#f6f6f8 100% );
+        }
+        .wrap{
+            width: 600px;
+            margin: 20px auto 0;
+        }
+        .wrap .screen{
+            overflow: hidden;
+            position: relative;
+            height: 400px;
+            background-color: #fff;
+            border: 1px solid gray;
+        }
+        .screen span{
+            position: absolute;
+            white-space: nowrap;
+        }
+        .wrap .bottom{
+            height: 30px;
+            margin-top: 20px;
+        }
+        .bottom input{
+            box-sizing: border-box;
+            padding: 0 6px;
+            height: 30px;
+        }
+        #send{
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="screen"></div>
+        <div class="bottom">
+            <input type="text" id="txt" placeholder="请输入内容">
+            <input type="button" id="send" value="发送">
+        </div>
+    </div>
+    <script>
+        (function(){
+
+            let screen = document.querySelector('.wrap .screen'),
+                text = document.getElementById('txt'),
+                send = document.getElementById('send');
+
+            document.onkeydown = function(e){
+                let value = text.value.trim();
+                if(e.keyCode === 13){
+                    if(value){
+                        creatMsg(value)
+                        text.value = '';
+                    }
+                }
+                
+                
+            }
+            send.onclick = function(){
+                let value = text.value.trim();
+                if(value){
+                    // console.log(value)
+                    creatMsg(value)
+                    text.value = '';
+                }else{
+                    alert('请输入内容')
+                }
+            }
+            function creatMsg(value){
+                let Danmu = document.createElement('span'),
+                    fontSize = Math.floor(Math.random() * 16) + 16
+                    color = '#'+Math.floor(Math.random()*16777215).toString(16);
+                    // console.log(parseInt('0xffffff', 16))
+                    //十六进制以数字0和字母x开头，即0x.......
+                
+                Danmu.style.fontSize = fontSize +'px';
+                Danmu.style.color = color;
+                Danmu.innerHTML = value;
+
+                let maxTop = screen.offsetHeight - fontSize,
+                    minTop = screen.offsetTop,
+                    height = Math.floor(Math.random() * (maxTop - minTop)) + minTop;
+                     
+                Danmu.style.top = height + 'px';
+                
+                let maxWidth = 600;//screen的宽度
+                let timer = setInterval(function(){
+                    Danmu.style.left = maxWidth + 'px';
+                    if(maxWidth > -Danmu.offsetWidth ){
+                        maxWidth -= 2;
+                        screen.appendChild(Danmu)
+                    }else{
+                        clearInterval(timer);
+                        screen.removeChild(Danmu)
+                    }
+
+                }, 10)
+
+                
+
+            }
+            
+        })()
+    </script>
+</body>
+</html>

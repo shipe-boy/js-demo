@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body,ul,li{margin:0;padding:0;}
+        li{list-style:none;}
+        a{text-decoration: none;}
+        body,html{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        body{
+            background-color: #000;
+        }
+        .wrap{
+            overflow: hidden;
+            display: flex;
+            justify-content: space-evenly;
+            width: 100%;
+            height: 100%;
+            padding-top: 50px;
+            margin-top: 30px;
+            background: url('./img/bg1.png');
+        }
+        .wrap .tab{
+            overflow: hidden;
+            width: 200px;
+            height: 522px;
+            background-color: rgb(92, 94, 103);
+            border-radius: 15px;
+        }
+        .tab li{
+            height: 60px;
+            border-bottom: #000 1px solid;
+            color: #fff;
+            text-align: center;
+            line-height: 50px;
+            font-size: 24px;
+            transition: height 0.3s;
+        }
+        .tab li.on{
+            height: 100px;
+            background-color: rgb(0, 159, 233);
+            line-height: 100px;
+        }
+        .tab li:nth-last-child(){
+            border: none
+        }
+        .wrap .show{
+            overflow: hidden;
+            width: 800px;
+            height: 522px;
+            border-radius: 15px;
+        }
+        .show .list{
+            width: 100%;
+            transition: .5s;
+        }
+        .show li{
+            padding: 20px 0;
+            background-color: rgba(0, 0, 0, .3);
+        }
+        .show li img{
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <ul class="tab">
+            <li class='on'>tab1</li>
+            <li>tab2</li>
+            <li>tab3</li>
+            <li>tab4</li>
+            <li>tab5</li>
+            <li>tab6</li>
+            <li>tab7</li>
+        </ul>
+        <div class="show">
+            <ul class="list">
+                <li>
+                    <img src="./img/a1.png" alt="">
+                </li>
+                <li>
+                    <img src="./img/a2.png" alt="">
+                </li>
+                <li>
+                    <img src="./img/a3.png" alt="">
+                </li>
+                <li>
+                    <img src="./img/a4.png" alt="">
+                </li>
+                <li>
+                    <img src="./img/a5.png" alt="">
+                </li>
+                <li>
+                    <img src="./img/a6.png" alt="">
+                </li>
+                <li>
+                    <img src="./img/a7.png" alt="">
+                </li>
+            </ul>
+        </div>
+        
+    </div>
+    <script src="./jquery.min.js"></script>
+    <script>
+         $('.tab li').mouseover(function(){
+            $('.tab li').removeClass('on')
+            $(this).addClass('on')
+            
+            let index = $(this).index();
+            $('.list').css('margin-top' , -index *522)
+            $('.wrap').css({'backgroundImage' : `url('./img/bg${index + 1}.png')`})
+
+
+         })
+    </script>
+</body>
+</html>

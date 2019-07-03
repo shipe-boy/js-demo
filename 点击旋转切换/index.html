@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body,h2{margin:0;padding:0;}
+        li{list-style:none;}
+        a{text-decoration: none;}
+        body,html{
+            width: 100%;
+            height: 100%;
+            perspective: 800px;
+            background-color: #000;
+        }
+        .cube{
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 50px auto 100px;
+            transform-style: preserve-3d;
+            transition: transform .6s ease-in-out;
+        }
+        .cube div{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        .cube div img{
+            width: 100%;
+            height: 100%;
+        }
+        .cube div.up{
+            background-color: red;
+            transform: translateZ(100px)
+        }
+        .cube div.bottom{
+            background-color: skyblue;
+            transform: rotateY(180deg) translateZ(100px)
+        }
+        .cube div.top{
+            background-color: greenyellow;
+            transform: rotateX(90deg) translateZ(100px)
+        }
+        .cube div.down{
+            background-color: green;
+            transform: rotateX(-90deg) translateZ(100px)
+        }
+        .cube div.left{
+            background-color: rebeccapurple;
+            transform: rotateY(-90deg) translateZ(100px)
+        }
+        .cube div.right{
+            background-color: royalblue;
+            transform: rotateY(90deg) translateZ(100px)
+        }
+        .msg{
+            line-height: 50px;
+            margin: auto;
+            color: #fff;
+            text-align: center;
+        }
+        .select{
+            display: grid;
+            /* 每列宽度  有三列*/
+            grid-template-columns: 105px 105px 105px;
+            /* 每行高度   有两行 */
+            grid-template-rows: 85px 85px;
+            /* 列间距和行间距的缩写 */
+            grid-gap: 15px;
+            /*内容居中显示*/
+            justify-content: center;
+        }
+        .select input{
+            width: 105px;
+            border: 2px solid #fafafa;
+            cursor: pointer;
+            outline: none;
+        }
+        .select input:focus{
+            border-color: #e70;
+        }
+        .cube.init{
+            transform: rotateX(-15deg) rotateY(45deg);
+        }
+        .cube.img1{
+            transform: rotateY(0deg) rotateX(-15deg);
+        }
+        .cube.img2{
+            transform: rotateX(75deg);
+        }
+        .cube.img3{
+            transform: rotateX(-105deg);
+        }
+        .cube.img4{
+            transform: rotateY(-180deg) rotateX(15deg);
+        }
+        .cube.img5{
+            transform: rotateY(90deg) rotateZ(-15deg);
+        }
+        .cube.img6{
+            transform: rotateY(-90deg) rotateZ(15deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="cube init">
+        <div class="up">
+            <img src="./img/1.jpg" alt="">
+        </div>
+        <div class="down">
+            <img src="./img/2.jpg" alt="">
+        </div>
+        <div class="top">
+            <img src="./img/3.jpg" alt="">
+        </div>
+        <div class="bottom">
+            <img src="./img/4.jpg" alt="">
+        </div>
+        <div class="left">
+            <img src="./img/5.jpg" alt="">
+        </div>
+        <div class="right">
+            <img src="./img/6.png" alt="">
+        </div>
+    </div>
+    <h2 class='msg'>请点击下面图片按钮</h2>
+    <div class="select">
+        <input class="img1" type="image" src="./img/1.jpg">
+        <input class="img2" type="image" src="./img/2.jpg">
+        <input class="img3" type="image" src="./img/3.jpg">
+        <input class="img4" type="image" src="./img/4.jpg">
+        <input class="img5" type="image" src="./img/5.jpg">
+        <input class="img6" type="image" src="./img/6.png">
+    </div>
+    <script>
+        (function(){
+            let cubeClass = document.getElementsByClassName('cube')[0].classList,
+                currentClass = cubeClass[1],
+                select = document.getElementsByClassName('select')[0];
+            
+            
+            select.addEventListener('click', event, false);
+            function event(e){
+                let target = e.target.tagName,
+                    tagClass = e.target.className;
+
+                if(tagClass != currentClass && target === 'INPUT'){
+                    cubeClass.replace(currentClass,tagClass);
+                    currentClass = tagClass;
+                }
+            }
+
+
+        })()
+    </script>
+</body>
+</html>

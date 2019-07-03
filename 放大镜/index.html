@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body,ul,li{margin:0;padding:0;}
+        li{list-style:none;}
+        a{text-decoration: none;}
+        .wrap{
+            position: relative;
+            width: 500px;
+            height: 500px;
+            margin-top: 50px;
+            margin-left: 20px;
+        }
+        .wrap .content{
+            position: relative;
+            width: 100%;
+            height: 400px;
+        }
+        .wrap .content .img{
+            width: 100%;
+            height: 100%;
+        }
+        .content .img img{
+            width: 100%;
+            height: 100%;
+        }
+        .content .move{
+            position: absolute;
+            background-image: url("./img/move-box.png");
+            background-size: 100% 100%;
+            cursor: move;
+        }
+        .list{
+            width: 100%;
+            height: 70px;
+            margin-top: 30px;
+            text-align: center;
+        }
+        .list li{
+            display: inline-block;
+            width: 70px;
+            height: 70px;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+        .list li img{
+            width: 100%;
+            height: 100%;
+        }
+        .show{
+            /* display: none; */
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            left: 110%;
+            width: 100%;
+            height: 400px;
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="content">
+            <div class="img">
+                <img src="./img/1.png" alt="">
+            </div>
+            <div class="move"></div>
+        </div>
+        <ul class="list">
+            <li>
+                <img src="./img/1.png" alt="">
+            </li>
+            <li>
+                <img src="./img/2.png" alt="">
+            </li>
+            <li>
+                <img src="./img/3.png" alt="">
+            </li>
+            <li>
+                <img src="./img/4.png" alt="">
+            </li>
+            <li>
+                <img src="./img/5.png" alt="">
+            </li>
+        </ul>
+        <div class="show">
+            <img src="./img/1.png" alt="">
+        </div>
+    </div>
+    <script>
+        (function(){
+            let oWrap = document.getElementsByClassName('wrap')[0],
+                oContent = document.getElementsByClassName('content')[0],
+                img = document.querySelector('.content .img'),
+                oMove = document.getElementsByClassName('move')[0],
+                oShow = document.getElementsByClassName('show')[0],
+                oList = document.getElementsByClassName('list')[0],
+                clone1 = document.querySelector('.show img'),
+                scall = 4; //放大倍数
+            oMove.style.width = oContent.offsetWidth / scall + 'px'
+            oMove.style.height = oContent.offsetHeight / scall + 'px'
+            clone1.style.width = oContent.offsetWidth * scall + 'px';
+            clone1.style.height = oContent.offsetHeight * scall + 'px';
+            oList.addEventListener('click', fn, false)
+            function fn(e){
+                let target = e.target;
+                if(target.tagName !== 'IMG')return
+                let clone = target.cloneNode();
+                clone1 = target.cloneNode();
+                img.innerHTML = '';
+                img.appendChild(clone);
+                clone1.style.width = oContent.offsetWidth * scall + 'px';
+                clone1.style.height = oContent.offsetHeight * scall + 'px';
+                oShow.innerHTML = '';
+                oShow.appendChild(clone1);
+                
+            }
+            
+            oContent.onmouseenter = function(e){
+                // oShow.style.display = 'block';
+                oMove.style.display = 'block';
+                oContent.onmousemove = function(e){
+                    let disX = e.clientX - oWrap.offsetLeft - oMove.offsetWidth / 2;
+                        disY = e.clientY - oWrap.offsetTop - oMove.offsetHeight / 2;
+                    
+                    
+                    disX = Math.max(0 , disX);
+                    disX = Math.min(disX, oContent.offsetWidth - oMove.offsetWidth);
+                    disY = Math.max(0 , disY);
+                    disY = Math.min(disY, oContent.offsetHeight - oMove.offsetHeight);
+                    
+                    
+                    clone1.style.marginLeft = -disX * scall + 'px';
+                    clone1.style.marginTop = -disY * scall + 'px';
+                    
+                    oMove.style.left = disX + 'px'
+                    oMove.style.top = disY + 'px'
+                }
+            }
+            oContent.onmouseleave = function(){
+                // oShow.style.display = 'none';
+                oMove.style.display = 'none';
+                img.onmousemove = null;
+            }
+            
+        })()
+    </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body{margin:0;padding:0;}
+        li{list-style:none;}
+        a{text-decoration: none;}
+        body,html{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .sky{
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-color: #007fd5;
+            animation: bgc 50s ease-out infinite;
+        }
+        @keyframes bgc{
+            0%{
+                background-color: #007fd5;
+            }
+            50%{
+                background-color: #000;
+            }
+            100%{
+                background-color: #007fd5;
+            }
+        }
+        .sky div{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 300%;
+            height: 100%;
+        }
+        .sky div.clouds-1{
+            background: url("./images/cloud_one.png");
+            animation: clouds 50s linear infinite;
+        }
+        
+        .sky div.clouds-2{
+            background: url("./images/cloud_two.png");
+            animation: clouds 75s linear infinite;
+        }
+        .sky div.clouds-3{
+            background: url("./images/cloud_three.png");
+            animation: clouds 100s linear infinite;
+        }
+        @keyframes clouds{
+            0%{
+                left: 0;
+            }
+            100%{
+                left: -200%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sky">
+        <div class="clouds-1"></div>
+        <div class="clouds-2"></div>
+        <div class="clouds-3"></div>
+    </div>
+    <script>
+        
+    </script>
+</body>
+</html>

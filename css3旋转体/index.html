@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body{margin:0;padding:0;}
+        li{list-style:none;}
+        a{text-decoration: none;}
+        body,html{
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: rgb(34, 34, 34);
+            perspective: 800px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .wrap{
+            position: relative;
+            width: 50vh;
+            height: 50vh;
+            transform-style: preserve-3d;
+            /* 隐藏被旋转的 div 元素的背面 */
+            backface-visibility: hidden;
+            /* 是绘制于元素周围的一条线，位于边框边缘的外围，可起到突出元素的作用。轮廓线不会占据空间，也不一定是矩形 */
+            outline: 0;
+            animation: rotator 4.5s linear infinite;
+        }
+        @keyframes rotator {
+            0% {
+                transform: rotateX(0deg) rotateY(0deg);
+            }
+            100% {
+                transform: rotateX(360deg) rotateY(360deg);
+            }
+        }
+        .wrap div{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            box-shadow: 0 0 3vh currentColor;
+            transition: background 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+        }
+        .wrap:hover div{
+            background-color: currentColor;
+            box-shadow: 0 0 20vh currentColor;
+        }
+        div.top{
+            color: deeppink;
+            transform: translateZ(25vh);
+        }
+        div.bottom{
+            color: mediumseagreen;
+            transform: translateZ(-25vh) rotateY(180deg);
+        }
+        div.left{
+            color: skyblue;
+            transform: rotateY(-90deg) translateZ(25vh);
+        }
+        div.right{
+            color: lightcoral;
+            transform: rotateY(90deg) translateZ(25vh);
+        }
+        div.up{
+            color: seagreen;
+            transform: rotateX(90deg) translateZ(25vh);
+        }
+        div.down{
+            color: dodgerblue;
+            transform: rotateX(-90deg) translateZ(25vh);
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="top"></div>
+        <div class="bottom"></div>
+        <div class="left"></div>
+        <div class="right"></div>
+        <div class="up"></div>
+        <div class="down"></div>
+    </div>
+    <script>
+        
+    </script>
+</body>
+</html>

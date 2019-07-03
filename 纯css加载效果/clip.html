@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body{margin:0;padding:0;}
+        li{list-style:none;}
+        a{text-decoration: none;}
+        .wrap{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            width: 200px;
+            height: 200px;
+            /* background-color: red; */
+        }
+        .wrap::before,.wrap::after{
+            box-sizing: border-box;
+            width: 120%;
+            height: 120%;
+            content: "";
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            border: 2px solid transparent;
+            animation: run 6s linear infinite;
+            /* animation: boxBorder 6s linear infinite; */
+        }
+        .wrap::before{
+            border-color: red;
+            /* animation: run 6s linear infinite; */
+            animation-delay: -3s;
+        }
+        /* 用来调试 */
+        .wrap::before{
+            /* 0% */
+            /* clip:rect(0px, 220px, 20px ,0px); */
+            /* 25% */
+            /* clip:rect(20px, 20px, 240px ,0px); */
+            /* 50% */
+            /* clip:rect(220px, 240px, 240px ,20px); */
+            /* 75% */
+            /* clip:rect(-20px, 240px, 220px ,220px); */
+        }
+        @keyframes run{
+            0%{
+                clip:rect(0px, 240px, 2px ,0px);
+            }
+            25%{
+                clip:rect(0px, 2px, 240px ,0px);
+            }
+            50%{
+                clip:rect(220px, 240px, 240px ,20px);
+            }
+            75%{
+                clip:rect(-20px, 240px, 220px ,220px);
+            }
+            100%{
+                clip:rect(0px, 220px, 20px ,0px);
+            }
+        }
+        @keyframes boxBorder {
+            0%{
+                border-color: #fff;
+                clip: rect(0, 240px, 2px ,0);
+            }
+            25%{
+                border-color: yellow;
+                clip: rect(0, 2px, 240px ,0);
+            }
+            50%{
+                border-color: blue;
+                clip: rect(218px, 240px, 240px ,0);
+            }
+            75%{
+                border-color: green;
+                clip: rect(0, 240px, 240px ,218px);
+            }
+            100%{
+                border-color: aqua;
+                clip: rect(0, 240px, 2px ,0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+
+    </div>
+    <script>
+        
+    </script>
+</body>
+</html>

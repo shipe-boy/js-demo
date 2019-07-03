@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body,p{margin:0;padding:0;}
+        li{list-style:none;}
+        a{text-decoration: none;}
+        body{
+            background-color: rgb(111, 11, 2);
+        }
+        .wrap{
+            position: relative;
+            width: 900px;
+            /* height: 384px; */
+            height: 460px;
+            margin: 50px auto 0;
+        }
+        .wrap .left{
+            position: absolute;
+            z-index: 2;
+            left: 370px;
+            top: 0;
+            width: 48px;
+            height: 460px;
+            background: url('./images/j1.png') no-repeat left center;
+        }
+        .wrap .right{
+            position: absolute;
+            z-index: 2;
+            left: 418px;
+            top: -1px;
+            width: 48px;
+            height: 460px;
+            background: url('./images/j4.png') no-repeat left center;
+        }
+        .wrap .left-content{
+            position: absolute;
+            left: 390px;
+            top: 0;
+            z-index: 1;
+            width: 25px;
+            height: 460px;
+            background: url('./images/j2.png') no-repeat right center;
+        }
+        .wrap .right-content{
+            position: absolute;
+            left: 415px;
+            top: 0;
+            z-index: 1;
+            width: 25px;
+            height: 460px;
+            background: url('./images/j3.png') no-repeat left center;
+        }
+        .wrap .content{
+            display: none;
+            position: absolute;
+            top: 110px;
+            left: 86px;
+            z-index: 2;
+            width: 570px;
+            height: 200px;
+            padding: 10px;
+            font-size: 14px;
+        }
+        .content p{
+            line-height: 1.5;
+            text-indent: 2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="left"></div>
+        <div class="left-content"></div>
+        <div class="right-content"></div>
+        <div class="right"></div>
+        <div class="content">
+            <p>传统音乐是在以典河流域为中心的中原音乐和四域音乐以及外国音乐的交流融合之中形成发展起来的。</p>
+        </div>
+        
+    </div>
+    <script src="./js/jquery-1.11.3.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(".left").animate({'left':'25px'},1300)
+            $(".left-content").animate({'left':'73px','width':'360px'},1300)
+            $(".right").animate({'left':'783px'},1600)
+            $(".right-content").animate({'width':'369px'},1600,function(){
+                $('.content').fadeIn(800)
+            })
+        })
+    </script>
+</body>
+</html>

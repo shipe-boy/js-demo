@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="./jquery.min.js"></script>
+    <style>
+        body,ul,li{margin:0;padding:0;}
+        li{list-style:none;}
+        a{text-decoration: none;}
+        #wrap{
+            overflow: hidden;
+            width: 840px;
+            height: 300px;
+            margin: 50px auto;
+            border: 1px solid #000;
+        }
+        #wrap .list{
+            width: 2240px;
+            height: 240px;
+            transition: 1s;
+        }
+        .list li{
+            overflow: hidden;
+            position: relative;
+            float: left;
+            width: 260px;
+            height: 240px;
+            padding: 0 10px;
+        }
+        .list li img {
+            width: 100%;
+            height: 100%;
+        }
+        .list li .desc {
+            position: absolute;
+            left: 10px;
+            top: 200px;
+            width: 240px;
+            height: 240px;
+            padding: 0 10px;
+            background-color: skyblue;
+            transition: 1s;
+        }
+        #wrap .btn{
+            width: 100%;
+            height: 40px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .btn div{
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            margin: 0 5px;
+            background-color: #ddd;
+        }
+        .btn div.left{
+            background-image: url("./images/jt_l.png");
+        }
+        .btn div.right{
+            background-image: url("./images/jt_r.png");
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <ul class="list">
+            <li>
+                <img src="./images/a1.png" alt="">
+                <div class="desc">图片详情介绍</div>
+            </li>
+            <li>
+                <img src="./images/a2.png" alt="">
+                <div class="desc">图片详情介绍</div>
+            </li>
+            <li>
+                <img src="./images/a3.png" alt="">
+                <div class="desc">图片详情介绍</div>
+            </li>
+            <li>
+                <img src="./images/a4.png" alt="">
+                <div class="desc">图片详情介绍</div>
+            </li>
+            <li>
+                <img src="./images/a1.png" alt="">
+                <div class="desc">图片详情介绍</div>
+            </li>
+            <li>
+                <img src="./images/a2.png" alt="">
+                <div class="desc">图片详情介绍</div>
+            </li>
+            <li>
+                <img src="./images/a3.png" alt="">
+                <div class="desc">图片详情介绍</div>
+            </li>
+            <li>
+                <img src="./images/a4.png" alt="">
+                <div class="desc">图片详情介绍</div>
+            </li>
+        </ul>
+        <div class="btn">
+            <div class="left"></div>
+            <div class="right"></div>
+        </div>
+    </div>
+
+    <script>
+        (function(){
+
+            let oWrap = document.getElementById("wrap"),
+                oList = oWrap.getElementsByClassName("list")[0],
+                aLi = oList.querySelectorAll("li"),
+                aDesc = oList.querySelectorAll("li .desc"),
+                liWidth = aLi[0].offsetWidth,
+                aBtn = oWrap.querySelectorAll(".btn div");
+
+            let index = 2,
+                i = 2;//当前窗口区域有三个，i表hi下标
+
+            // console.log(liWidth)
+            aBtn[0].onclick = function(){
+                index--;
+                if(index <= 2){index = 2}
+                oList.style.marginLeft = -(index-i) * liWidth + "px";
+                // console.log(index)
+            }
+            aBtn[1].onclick = function(){
+                index++;
+                if(index >= aLi.length){index = aLi.length - 1}
+                oList.style.marginLeft = -(index-i) * liWidth + "px";
+                // console.log(index)
+            }
+            
+            for(let i = 0, len = aLi.length; i < len; i++){
+                aLi[i].onmouseenter = function(){
+                    aDesc[i].style.top = "0";
+                }
+                aLi[i].onmouseleave = function(){
+                    aDesc[i].style.top = "200px";
+                }
+            }
+
+
+
+
+        })()
+    </script>
+</body>
+</html>

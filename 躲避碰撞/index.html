@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body,p{margin:0;padding:0;}
+        li{list-style:none;}
+        a{text-decoration: none;}
+        body{
+            background-color: skyblue;
+        }
+        .wrap{
+            width: 400px;
+            margin: 20px auto 0;
+            text-align: center;
+            color: #fff;
+        }
+        .wrap .title{
+            height: 30px;
+            margin: 10px 0;
+            line-height: 30px;
+        }
+        .wrap .title span.go{
+            display: inline-block;
+            height: 100%;
+            padding: 0 5px;
+            background-color: red;
+            cursor: pointer;
+        }
+        .wrap .game{
+            overflow: hidden;
+            position: relative;
+            width: 400px;
+            height: 400px;
+            background-color: gray;
+        }
+        .wrap .move{
+            position: absolute;
+            z-index: 2;
+            top: 40%;
+            left: 40%;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: red;
+            cursor: move;
+        }
+        .wrap .ball{
+            position: absolute;
+            top: 0px;
+            width: 50px;
+            height: 50px;
+            background-color: green;
+            border-radius: 50%;
+        }
+        .wrap .desc{
+            margin-top: 20px;
+            line-height: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <p class="title"><span class="go">马上开始</span></p>
+        <div class="game">
+            <div class="move"></div>
+        </div>
+        <p class="desc">
+            游戏规则：鼠标移动到红色部分，拖动红块，避免碰到绿色部分，不要碰到黑色区域，坚持的时间越长你越牛X！是男人就至少坚持30秒，本游戏支持IE，Chrome，Firefox，safari等浏览器！
+        </p>
+    </div>
+    <script>
+        (function(){
+            let go = document.querySelector(".wrap .title .go"),
+                game = document.querySelector(".wrap .game"),
+                move = document.getElementsByClassName("move")[0],
+                num = 0;
+
+            go.onclick = function(){
+                go.style.backgroundColor = '#fff';
+                go.style.color = "#000";
+                go.innerHTML = `已经坚持了${num}秒`
+                let timer = setInterval(function(){
+                    new Ball()
+                    num++;
+                    go.innerHTML = `已经坚持了${num}秒`
+                },1000)
+            }
+
+
+
+            function Ball(){
+                this.moveBall() 
+                this.creat()
+            }
+            Ball.prototype.moveBall = function(){
+                move.onmousedown = function(e){
+                    let downX = e.clientX,
+                        downY = e.clientY,
+                        // 元素初始left和top获取
+                        ballL = move.offsetLeft,
+                        ballT = move.offsetTop;
+
+                    game.onmousemove = function(e){
+                        let moveX = e.clientX,
+                            moveY = e.clientY;
+                        move.style.left = ballL + (moveX - downX) + 'px';
+                        move.style.top = ballT + (moveY - downY) + 'px';
+                        if(parseFloat(move.style.left) < 0 || parseFloat(move.style.left) > 350){
+                            alert('游戏结束 ! 共坚持'+ num + '秒')
+                            window.location.reload()
+                        }
+                        if(parseFloat(move.style.top) < 0 || parseFloat(move.style.top) > 350){
+                            alert('游戏结束 ! 共坚持'+ num + '秒')
+                            window.location.reload()
+                        }
+                    }
+                }
+                game.onmouseup = function(){
+                    game.onmousemove = null;
+                }
+            }
+            Ball.prototype.creat = function(){
+                let ball = document.createElement("div")
+                    ball.setAttribute("class", "ball")
+                    ball.style.left = Math.floor(Math.random() * 350) + 'px';
+                    
+                game.appendChild(ball)
+                this.run(ball)
+
+            }
+            Ball.prototype.run = function(ball){
+                // console.log("run")
+                let speedLeft = Math.floor(Math.random() * 3) + 1,
+                    speedTop = Math.floor(Math.random() * 3) + 1;
+                    
+                let timer = setInterval(function(){
+                    let starLeft = parseFloat(getComputedStyle(ball).left),
+                        starTop = parseFloat(getComputedStyle(ball).top);
+                    //遇边界反弹
+                    if(starLeft > 350 || starLeft < 0){
+                        speedLeft = -speedLeft;
+                    }
+                    if(starTop > 350 || starTop < 0){
+                        speedTop = -speedTop;
+                    }
+
+                    //检查是否碰撞
+                    let moveLeft = move.offsetLeft + move.offsetWidth / 2,
+                        moveTop = move.offsetTop + move.offsetHeight / 2,
+                        ballLeft = ball.offsetLeft + ball.offsetWidth / 2,
+                        ballTop = ball.offsetTop + ball.offsetHeight / 2,
+                        disLeft = Math.abs(moveLeft - ballLeft),
+                        disTop = Math.abs(moveTop - ballTop);
+
+                    if(Math.sqrt(Math.pow(disLeft, 2) + Math.pow(disTop, 2)) <= 50 ){
+                        alert('游戏结束 ! 共坚持'+ num + '秒')
+                        window.location.reload()
+                    }
+
+                    ball.style.left =  starLeft + speedLeft + 'px';
+                    ball.style.top = starTop + speedTop + 'px';
+                }, 30)
+            }
+           
+        })()
+    </script>
+</body>
+</html>

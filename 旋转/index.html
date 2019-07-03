@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body{margin:0;padding:0;}
+        li{list-style:none;}
+        a{text-decoration: none;}
+        body,html{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+        }
+        .wrap{
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 100px auto 0;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+        .wrap.active{
+            animation: rotate 10s infinite linear;
+        }
+        @keyframes rotate{
+            0%{
+                transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg)
+            }
+            50%{
+                transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg)
+            }
+            100%{
+                transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg)
+            }
+        }
+        .wrap .cube{
+            position: absolute;
+            top: 50%;
+            left:50%;
+            margin-left: -50px;
+            margin-top: -50px;
+            width: 100px;
+            height: 100px;
+            transform-style: preserve-3d;
+            transform: rotateY(30deg) rotateX(30deg);
+        }
+        .cube div{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            
+        }
+        .cube div img{
+            width: 100%;
+            height: 100%;
+        }
+        .cube div.top{
+            transform: translateZ(50px);
+        }
+        .cube div.bottom{
+            transform: rotateY(180deg) translateZ(50px);
+        }
+        .cube div.left{
+            transform: rotateY(90deg) translateZ(50px);
+        }
+        .cube div.right{
+            transform: rotateY(-90deg) translateZ(50px) ;
+        }
+        .cube div.up{
+            transform: rotateX(90deg) translateZ(50px);
+        }
+        .cube div.down{
+            transform: rotateX(-90deg) translateZ(50px) ;
+        }
+        .outline{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        .outline div{
+            position: absolute;
+            left: 20%;
+            top: -20%;
+            width: 50%;
+            height: 100%;
+            border-top: 1px solid red;
+            border-right: 1px solid red;
+            border-radius: 65% 35% 0 0% / 40% 35% 0 0% ; 
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="cube">
+            <div class="top">
+                <img src="./img/1.jpg" alt="">
+            </div>
+            <div class="bottom">
+                <img src="./img/2.jpg" alt="">
+            </div>
+            <div class="up">
+                <img src="./img/3.jpg" alt="">
+            </div>
+            <div class="down">
+                <img src="./img/4.jpg" alt="">
+            </div>
+            <div class="left">
+                <img src="./img/5.jpg" alt="">
+            </div>
+            <div class="right">
+                <img src="./img/6.jpg" alt="">
+            </div>
+        </div>
+        <div class="outline">
+        </div>
+    </div>
+    <script>
+        (function(){
+            let xin = document.getElementsByClassName('outline')[0],
+                oWrap = document.getElementsByClassName('wrap')[0];
+
+            function createOutline(){
+                for(var i = 0; i < 36; i++) {
+                    var cdiv = document.createElement("div");
+                    cdiv.style.transform = "rotateY(" + i * 10 + "deg) rotateZ(45deg) translateX(75px)";
+                    // 将创建出来的div追加到 当前父元素
+                    xin.appendChild(cdiv);
+                }
+            }
+            createOutline()
+            
+            oWrap.classList.add('active')
+        })()
+    </script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body{margin:0;padding:0;}
+        li{list-style:none;}
+        a{text-decoration: none;}
+        body,html{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        body{
+            background-color: #000;
+            background-image: radial-gradient(circle at center center,rgba(244, 23, 234, 0.2), rgba(0, 0, 0, 0.5));
+            perspective: 1000px;
+        }
+        .wrap{
+           position: absolute;
+           top: 30%;
+           left: 50%;
+           margin-left: -50px;
+           width: 100px;
+           height: 150px;
+           transform-style: preserve-3d;
+        }
+        .wrap img{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            /* 映射 below 向下 10px 间隔10px 遮罩层图像 */
+            -webkit-box-reflect: below 10px -webkit-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5) 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <img src="./image/1.jpg" alt="">
+        <img src="./image/2.jpg" alt="">
+        <img src="./image/3.jpg" alt="">
+        <img src="./image/4.jpg" alt="">
+        <img src="./image/5.jpg" alt="">
+        <img src="./image/6.jpg" alt="">
+        <img src="./image/7.jpg" alt="">
+        <img src="./image/8.jpg" alt="">
+        <img src="./image/9.jpg" alt="">
+        <img src="./image/10.jpg" alt="">
+        <img src="./image/11.jpg" alt="">
+        <img src="./image/12.jpg" alt="">
+    </div>
+    <script>
+        (function(){
+            let oWrap = document.getElementsByClassName("wrap")[0],
+                aImg = oWrap.getElementsByTagName("img"),
+                len = aImg.length,
+                deg = 360 / len,
+                rotX = -15,
+                rotY = 0;
+            
+            function init(){
+                rotateImg()
+                bindEvent()
+            }
+
+            function rotateImg(){
+                for(let i = 0; i < len; i++){
+                    aImg[i].style.transition = `transform  0.5s linear ${(len - 1 - i) * 0.1}s`;
+                    aImg[i].style.transform = `rotateY(${i * deg}deg) translateZ(250px)`;
+                }
+                aImg[0].addEventListener("transitionend",function(e){
+                    oWrap.style.transition = `all 1s linear`
+                    oWrap.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+                    aImg[0].removeEventListener("transitionend", arguments.callee)
+                }, false)
+                
+            }
+
+            function bindEvent(){
+                let disX = 0, disY = 0;
+                document.body.onmousedown = function(e){
+                    e.preventDefault();  //阻止默认事件，即无法选中图片
+                    let downX = e.clientX,
+                        downY = e.clientY;
+                    document.body.onmousemove = function(e){
+                        let moveX = e.clientX,
+                            moveY = e.clientY;
+                        disX = moveX - downX;
+                        disY = moveY - downY;
+                        rotX += -disY * 0.2;
+                        rotY += disX * 0.3;
+                        // 盒子的旋转角度
+                        // 为什么不直接赋值？ 
+                        // 如果直接赋值会出现一个问题 当鼠标抬起再次按下的时候 旋转不是从当前位置开始旋转   而是盒子初始位置的旋转
+                        // 我们需要的是每次旋转的时候是从上一次运动结束的角度继续旋转
+                        // 不对
+                        // oWrap.style.transform = `rotateX(${-disY * 0.1}deg) rotateY(${disX * 0.2}deg)`;
+                        
+                        oWrap.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+                        downX = moveX;
+                        downY = moveY;
+                    }
+                }
+                document.body.onmouseup = function(e){
+                    document.body.onmousemove = null;
+                    // 缓冲效果
+                    let timer = setInterval(function(){
+                        disX *= 0.95;
+                        disY *= 0.95;
+                        rotX += -disY * 0.2;
+                        rotY += disX * 0.3;
+                        oWrap.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+                        if(Math.abs(disX) < 0.1 && Math.abs(disY) < 0.1){
+                            clearInterval(timer)
+                        }
+                    }, 20)
+                }
+            }
+            window.onload = function(){
+                init();
+            }
+
+        })()
+    </script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body{margin:0;padding:0;}
+        li{list-style:none;}
+        a{text-decoration: none;}
+        .wrap{
+            overflow: hidden;
+            width: 300px;
+            height: 355px;
+            margin: 50px auto 0;
+        }
+        .cubes{
+            width: 315px;
+            height: 315px;
+            margin-left: -15px;
+            background-color: #eee;
+        }
+        .cubes div.cube{
+            float: left;
+            width: 90px;
+            height: 90px;
+            margin-left: 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            background-color: #f40;
+        }
+        .button{
+            box-sizing: border-box;
+            width: 100%;
+            height: 30px;
+            margin-top: 10px;
+            border: 1px solid #f40;
+            color: #f40;
+            line-height: 30px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .button:hover{
+            background-color: #f40;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="cubes"></div>
+        <div class="button">点击开始闪烁</div>
+    </div>
+    <script>
+       (function(){
+
+        let oCubes = document.getElementsByClassName('cubes')[0],
+            oBtn = document.getElementsByClassName('button')[0];
+        
+        function createCube(){
+            for(let i = 0; i < 9; i++){
+                let cube = document.createElement('div');
+                cube.classList.add('cube');
+                oCubes.appendChild(cube);
+            }
+        }
+        function bindEvent(){
+            let bool = true,timer;
+            oBtn.onclick = function(){
+                if(bool){
+                    timer = setInterval(function(){
+                        changeBg()
+                    }, 500)
+                    oBtn.innerHTML = '点击停止闪烁'
+                }else{
+                    clearInterval(timer)
+                    oBtn.innerHTML = '点击开始闪烁'
+                }
+                bool = !bool;
+            }
+        }
+        function changeBg(){
+            let cube = document.getElementsByClassName('cube'),
+                arr = [].slice.call(cube,0);
+            
+            for(let i = 0; i < 3; i++){
+                let random = Math.floor(Math.random() * arr.length)
+                arr[random].style.backgroundColor = getBgc();
+                setTimeout(function(){
+                    arr[random].style.backgroundColor = '#f40';
+                },300)
+            }
+            
+        }
+        function getBgc(){
+            let r = Math.floor(Math.random() * 256),
+                g = Math.floor(Math.random() * 256),
+                b = Math.floor(Math.random() * 256);
+            
+            return `rgb(${r},${g},${b})`;
+        }
+        function init(){
+            createCube()
+            bindEvent()
+        }
+        init()
+       })() 
+    </script>
+</body>
+</html>

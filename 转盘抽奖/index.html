@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body{margin:0;padding:0;}
+        li{list-style:none;}
+        a{text-decoration: none;}
+        .wrap{
+            position: relative;
+            width: 400px;
+            height: 400px;
+            margin: 50px auto 0;
+        }
+        .wrap .pan{
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: url("./img/pan.png") center/cover;
+        }
+        .wrap .go{
+            position: absolute;
+            top: 116px;
+            left: 135px;
+            width: 129px;
+            height: 148px;
+            cursor: pointer;
+        }
+        .wrap .go img{
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="pan"></div>
+        <div class="go">
+            <img src="./img/btn.png" alt="">
+        </div>
+    </div>
+    <script>
+        (function(){
+
+            let pan = document.getElementsByClassName('pan')[0],
+                go = document.getElementsByClassName('go')[0],
+                flag = true;
+
+            go.addEventListener('click', rotate, false)
+            function rotate(){
+                if(flag){
+                    flag = false;
+                    let deg = 0,
+                    endDeg = Math.floor( Math.random() * 360),
+                    rotateNum = 0;
+                    
+                    let timer = setInterval(function(){
+                        if(rotateNum < 1){
+                            deg += 10;
+                            rotateNum = deg / 360;
+                            pan.style.transform = `rotate(${deg}deg)`
+                        }else if(rotateNum <= 6){
+                            deg += 20;
+                            rotateNum = deg / 360;
+                            pan.style.transform = `rotate(${deg}deg)`
+                        }else if(rotateNum <= 7){
+                            deg += 10;
+                            rotateNum = deg / 360;
+                            pan.style.transform = `rotate(${deg}deg)`
+                        }else if(rotateNum <= 8){
+                            deg += 5;
+                            rotateNum = deg / 360;
+                            pan.style.transform = `rotate(${deg}deg)`
+                        }else{
+                            deg += 2;
+                            if((deg%=360) >= endDeg){
+                                deg = endDeg
+                                // pan.style.transform = `rotate(${deg}deg)`;;
+                                clearInterval(timer)
+                                judeg(endDeg)
+                                flag = true
+                            }else{
+                                pan.style.transform = `rotate(${deg}deg)`;
+                            }
+                            
+                        }
+                    }, 20)
+                }
+                
+            }
+
+            function judeg(deg){
+                let msg = '';
+                if(deg >= 45 && deg <= 90 || deg >= 135 && deg <= 180 || deg >= 225 && deg <= 270 || deg >= 315 && deg <= 360){
+                    msg = '四等奖';
+                }
+                if(deg > 90 && deg < 135 || deg > 270 && deg < 315 ){
+                    msg = '三等奖';
+                }
+                if(deg > 180 && deg < 225){
+                    msg = '一等奖';
+                }
+                if(deg > 0 && deg < 45){
+                    msg = '二等奖';
+                }
+                alert("恭喜获得" + msg)
+            }
+
+        })()
+    </script>
+</body>
+</html>

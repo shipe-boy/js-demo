@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body{margin:0;padding:0;}
+        li{list-style:none;}
+        a{text-decoration: none;}
+        body,html{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        body{
+            background: url('./p1.jpg') no-repeat center top, #333;
+        }
+        .box{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left: -100px;
+            margin-top: -100px;
+            width: 200px;
+            height: 200px;
+            border: 4px solid orangered;
+        }
+        @keyframes rotaterun{
+            0%{
+                transform: rotate(0)
+            }
+            100%{
+                transform: rotate(360deg)
+            }
+        }
+        .box div{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            animation: rotaterun 5s infinite linear;
+        }
+        div.icon::after,div.icon::before{
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left: -50px;
+            margin-top: -15px;
+            width: 100px;
+            height: 30px;
+            border: 2px solid blue;
+            border-radius: 50%;
+            animation: run 5s linear infinite;
+        }
+        @keyframes run{
+            0%{
+                border-color: red;
+            }
+            25%{
+                border-color: yellow;
+            }
+            50%{
+                border-color: rgb(0, 225, 255);
+            }
+            75%{
+                border-color: rgb(255, 0, 157);
+            }
+            100%{
+                border-color: rgb(21, 255, 0);
+            }
+        }
+        div.icon1::before{
+            transform: rotate(120deg)
+        }
+        div.icon::after{
+            transform: rotate(240deg)
+        }
+        .box div.icon1::after{
+            width: 10px;
+            height: 10px;
+            border: 2px solid #000;
+            background-color: red;
+            border-radius: 50%;
+            transform: translateY(9px) translateX(-4px);
+            animation: bgrun 5s linear infinite .7s;
+        }
+        @keyframes bgrun{
+            0%{
+                background-color: red;
+            }
+            25%{
+                background-color: yellow;
+            }
+            50%{
+                background-color: rgb(0, 225, 255);
+            }
+            75%{
+                background-color: rgb(255, 0, 157);
+            }
+            100%{
+                background-color: rgb(21, 255, 0);
+            }
+        }
+        /* 最外边的两条线 */
+        .box::before,.box::after{
+            content: "";
+            width: 120%;
+            height: 120%;
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            box-sizing: border-box;
+            border: 2px solid transparent;
+            animation: boxBorder 6s linear infinite;
+        }
+        .box::before{
+            animation-delay: -3s;
+        }
+        @keyframes boxBorder {
+            0%{
+                border-color: #fff;
+                /*clip 属性剪裁绝对定位元素。
+
+            当一幅图像的尺寸大于包含它的元素时会发生什么呢？"clip" 属性允许您规定一个元素的可见尺寸，这样此元素就会被修剪并显示为这个形状。
+
+            让你指定一个绝对定位的元素，该尺寸应该是可见的，该元素被剪裁成这种形状并显示。
+
+            注意：: 如果先有"overflow：visible"，clip属性不起作用。
+
+            设置元素的形状。唯一合法的形状值是：rect (top, right, bottom, left)
+            */
+                clip: rect(0, 240px, 2px ,0);
+            }
+            25%{
+                border-color: yellow;
+                clip: rect(0, 2px, 240px ,0);
+            }
+            50%{
+                border-color: blue;
+                clip: rect(218px, 240px, 240px ,0);
+            }
+            75%{
+                border-color: green;
+                clip: rect(0, 240px, 240px ,218px);
+            }
+            100%{
+                border-color: aqua;
+                clip: rect(0, 240px, 2px ,0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="icon"></div>
+        <div class="icon icon1"></div>
+    </div>
+    <script>
+        
+    </script>
+</body>
+</html>

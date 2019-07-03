@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body{margin:0;padding:0;}
+        li{list-style:none;}
+        a{text-decoration: none;}
+        body,html{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .wrap{
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-color: rgb(74,150,238);
+        }
+        .wrap div.sheep{
+            position: absolute;
+            bottom: 20px;
+            right: -164px;
+            width: 164px;
+            height: 122px;
+            background-image: url('./sheep.png');
+            background-position: 0 0;
+            cursor: -webkit-grabbing;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap"></div>
+    <script>
+        (function(){
+
+            let oWrap = document.getElementsByClassName('wrap')[0];
+            
+
+            maxSheep(8)
+            function maxSheep(i){
+                let timer = setInterval(function(){
+                    if(oWrap.children.length < i){
+                        let speed = Math.floor(Math.random() * 10) + 4;
+                        creatSheep(speed,70)
+                    }else{
+                        return false;
+                    }
+                    
+                },1000)
+            }
+            function creatSheep(speed,time){
+                let sheep = document.createElement('div');
+                sheep.classList.add('sheep');
+                sheep.bgpX = 0;
+                sheep.bgpY = 0;
+                sheep.time = time;
+                sheep.speed = speed;
+                sheep.speed1 = speed;
+                oWrap.appendChild(sheep)
+                runSheep(sheep)
+            }
+            function runSheep(sheep){
+                /*原地自主运动*/
+                sheep.timer1 = setInterval(function(){
+                    sheep.bgpX = sheep.bgpX + sheep.offsetWidth;
+                    if(sheep.bgpX == (sheep.offsetWidth*8)){
+                        sheep.bgpX = 0;
+                    }
+                    sheep.style.backgroundPosition = `${-sheep.bgpX}px ${sheep.bgpY}px`;
+                },sheep.time)
+                
+                /*向前跑*/
+                sheep.timer2 = setInterval(function(){
+                    let left = sheep.offsetLeft;
+                    left -= sheep.speed;
+                    if(left <= -sheep.offsetWidth){
+                        clearInterval(sheep.timer1)
+                        clearInterval(sheep.timer2)
+                        oWrap.removeChild(sheep);
+                    }
+                    sheep.style.left = left + 'px';
+                },sheep.time)
+
+                /*拖拽*/
+                sheep.addEventListener('mousedown', down, false);
+                function down(e){
+                    sheep.speed = 0;
+                    sheep.bgpY = -sheep.offsetHeight;
+                    sheep.downX = e.clientX,
+                    sheep.downY = e.clientY;
+                    sheep.left = sheep.offsetLeft;
+                    sheep.top = sheep.offsetTop;
+                    oWrap.addEventListener('mousemove', move,false);
+                }
+                function move(e){
+                    let disX = e.clientX - sheep.downX,
+                        disY = e.clientY - sheep.downY;
+                    sheep.style.top = sheep.top + disY + 'px';
+                    sheep.style.left = sheep.left + disX + 'px';
+                }
+
+                oWrap.addEventListener('mouseup', function(){
+                    sheep.bgpY = 0;
+                    sheep.speed = sheep.speed1;
+                    oWrap.removeEventListener('mousemove', move);
+                })
+
+            }
+
+        })()
+    </script>
+</body>
+</html>

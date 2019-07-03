@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body,p{margin:0;padding:0;}
+        li{list-style:none;}
+        a{text-decoration: none;}
+        body,html{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        body{
+            background-color: rgb(231, 76, 60);
+            background-image: url('./img/bg.png');
+            background-position: 100% 100%;
+            background-repeat: repeat-x;
+        }
+        .box{
+            position: absolute;
+            z-index: 2;
+            width: 300px;
+            left: 50%;
+            bottom: 50px;
+            margin-left: -150px;
+            cursor: pointer;
+        }
+        .box .top{
+            width: 300px;
+            height: 124px;
+            background: url('./img/hegai.png');
+        }
+        .box .bottom{
+            width: 300px;
+            height: 165px;
+            background: url('./img/hezi.png') no-repeat center;
+        }
+        .msg{
+            height: 20px;
+            width: 100%;
+            line-height: 20px;
+            text-align: center;
+            color: #fff;
+        }
+        .shake.box .bottom{
+            animation: shake 0.5s linear infinite forwards;
+        }
+        .box.shake .top{
+            /* animation-delay: .1s; */
+            animation: shake 0.5s .1s linear infinite forwards;
+        }
+        .fly .top{
+            animation: flyUp 0.4s ease-out forwards;
+        }
+        .fly .bottom{
+            animation: fallDown 0.2s 0.05s ease-in forwards;
+        }
+        @keyframes flyUp {
+            75% { opacity: 1;}
+            100% { transform: translateY(-1000px) rotate(20deg); opacity: 0;}
+        }
+        @keyframes fallDown {
+            75% { opacity: 1;}
+            100% { transform: translateY(100%); opacity: 0;}
+        }
+        .happy{
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            margin-left: -450px;
+            width: 900px;
+            height: 100%;
+            background: url('./img/lingdang.png') no-repeat center;
+            text-align: center;
+        }
+        .happy p{
+            display: inline-block;
+        }
+        .happy p:nth-child(1){
+            margin-top: 150px;
+            margin-bottom: 30px;
+        }
+        .happy span{
+            display: inline-block;
+            width: 70px;
+            height: 90px;
+            margin: 0 10px;
+            line-height: 90px;
+            font-size: 70px;
+            color: #2c3e50;
+            text-shadow: 5px 5px 0 #ca3121;
+            animation: shake 0.5s 0s infinite linear forwards;
+        }
+        .happy span:nth-child(even){
+            animation-duration: 1s
+        }
+        @keyframes shake {
+            25% { transform: rotate(4deg); }
+            75% { transform: rotate(-2deg); }
+        }
+        .happy.show{
+            opacity: 1;
+            transition: all .7s ease-in;            
+        }
+        /* 雪花样式 */
+        .snow {
+            position: fixed;
+            top: -50px;
+            animation: drop ease-in-out infinite;
+        }
+        @keyframes drop {
+            0% {
+                transform: translate(0px, -50px);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(0px, 750px);
+                opacity: 0.2;
+            }
+        }
+    </style>
+</head>
+<body>
+    <audio src="./img/Jingle Bell.mp3"></audio>
+    <div class="box">
+        <div class="top"></div>
+        <div class="bottom">
+             <p class="msg">Click Me</p>
+        </div>
+    </div>
+    <div class="happy">
+        <p>
+            <span>M</span>
+            <span>E</span>
+            <span>R</span>
+            <span>R</span>
+            <span>Y</span>
+        </p>
+        <p>
+            <span>C</span>
+            <span>H</span>
+            <span>R</span>
+            <span>I</span>
+            <span>S</span>
+            <span>T</span>
+            <span>M</span>
+            <span>A</span>
+            <span>S</span>
+        </p>
+    </div>
+    <script src="./jquery.js"></script>
+    <script>
+        (function(){
+            function bindEvent(){
+                $('.box').on('click', function(){
+                    $('.box').addClass('shake')
+                    $('audio')[0].play();
+                    setTimeout(function(){
+                        $('.box').removeClass('shake')
+                        $('.box').addClass('fly')
+                        //根据类名铃铛和字显示
+                        $('.happy').addClass('show')
+                        
+                        //随机产生雪花
+                        init()
+                    }, 1000)
+                })
+            }
+            bindEvent()
+            function init(){
+                for(let i = 0; i < 100; i++){
+                    $('body').append(creatSnow())
+                }
+            }
+            function creatSnow(){
+                let picNum = Math.random() > 0.5 ? 1 : 2,
+                    sonw = $('<div class="snow"><img src="./img/snow'+ picNum +'.png" /></div>');
+                
+                sonw.css({
+                    'left' : random(0, 1500) + 'px',
+                    'animationDelay' : random(0, 5) + 's',
+                    'animationDuration' : random(4, 10) + 's',
+                })
+
+                return sonw
+            }
+            function random(min, max){
+                return Math.floor(Math.random() * (max - min)) + min
+            }
+        })()
+    </script>
+</body>
+</html>

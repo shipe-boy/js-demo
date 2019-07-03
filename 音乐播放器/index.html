@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body,p{margin:0;padding:0;}
+        li{list-style:none;}
+        a{text-decoration: none;}
+        body,html{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: rgb(50,50,50);
+        }
+        .wrap{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            width: 450px;
+            height: 120px;
+            background-color: #fff;
+            border-radius: 20px;
+        }
+        .music{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            width: 430px;
+            height: 100px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-around;
+        }
+        .music .nav{
+            position: relative;
+            top: -50%;
+            width: 112px;
+            height: 112px;
+            border-radius: 50%;
+        }
+        .music .cd{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-size: 100% 100%;
+            border-radius: 50%;
+        }
+        .music .nav::before{
+            content: '';
+            position: absolute;
+            z-index: 2;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background-color: #fff;
+        }
+        .music.playing .nav::after{
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top:0;
+            bottom: 0;
+            border-radius: 50%;
+            box-shadow: 0px 30px 28px -10px rgba( 0, 0, 0, 0.2);
+        }
+        .music .control{
+            width: 240px;
+            height: 85px;
+            padding-top: 15px;
+        }
+        .control div{
+            float: left;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .icon{
+            width: 2em; 
+            height: 2em;
+            fill: #d7dce2;
+            cursor: pointer;
+            font-size: 30px;
+        }
+        .control .prev>svg{
+            transform: rotate(180deg);
+        }
+        .control .play>svg{
+            font-size: 20px;
+        }
+        .icon.pause{
+            display: none;
+        }
+        /* //播放开关 */
+        .music.playing .icon.pause{
+            display: block;
+        }
+        .music.playing .icon.play1{
+            display: none;
+        }
+        .control .bar{
+            display: block;
+            width: 100%;
+            height: 5px;
+            background-color: #d7dce2;
+        }
+        .bar .duration{
+            height: 100%;
+            width: 0;
+            background: #28b6f8;
+        }
+        .bg-msg{
+            overflow: hidden;
+            position: absolute;
+            z-index: -1;
+            left: 50%;
+            transform: translate(-50%);
+            width: 380px;
+            height: 120px;
+            background-color: skyblue;
+            border-radius: 20px;
+        }
+        .bg-msg p{
+            width: 75%;
+            height: 24px;
+            margin-left: 25%;
+            margin-top: 5px;
+            line-height: 24px;
+            text-align: center;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="music">
+            <div class="nav">
+                <div class="cd">
+                </div>
+            </div>
+            <div class="control">
+                <div class="prev">
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                        <path d="M26.695 34.434v31.132L54.5 49.998z"></path>
+                        <path d="M24.07 34.434v31.132c0 2.018 2.222 3.234 3.95 2.267l27.804-15.568c1.706-.955 1.707-3.578 0-4.533L28.02 32.168c-2.957-1.655-5.604 2.88-2.649 4.533l27.805 15.564v-4.533L25.371 63.3l3.95 2.267V34.435c-.001-3.387-5.251-3.387-5.251-.001z"></path>
+                        <g>
+                            <path d="M55.5 34.434v31.132l27.805-15.568z"></path>
+                            <path d="M52.875 34.434v31.132c0 2.018 2.222 3.234 3.949 2.267 9.27-5.189 18.537-10.379 27.805-15.568 1.705-.955 1.705-3.578 0-4.533L56.824 32.168c-2.957-1.655-5.604 2.88-2.648 4.533l27.803 15.564v-4.533L54.176 63.3l3.949 2.267V34.435c0-3.387-5.25-3.387-5.25-.001z"></path>
+                        </g>
+                    </svg>
+                </div>
+                <div class="play">
+                    <svg class="icon play1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+                        <path d="M51.109 30.335l-36-24A2 2 0 0 0 12 8v48a2.003 2.003 0 0 0 2 2c.388 0 .775-.113 1.109-.336l36-24a2 2 0 0 0 0-3.329z"></path>
+                    </svg>
+                    <svg class="icon pause" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                        <path d="M22.537 8.046h17.791c1.104 0 2.003.898 2.003 1.993v79.912a2.005 2.005 0 0 1-2.003 2.003h-17.79a2.005 2.005 0 0 1-2.003-2.003V10.04c0-1.095.898-1.993 2.002-1.993zM59.672 8.046h17.8c1.095 0 1.993.898 1.993 1.993v79.912a2.003 2.003 0 0 1-1.993 2.003h-17.8a1.997 1.997 0 0 1-1.993-2.003V10.04c0-1.095.889-1.993 1.993-1.993z"></path>
+                    </svg>
+                </div>
+                <div class="next">
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                        <path d="M26.695 34.434v31.132L54.5 49.998z"></path>
+                        <path d="M24.07 34.434v31.132c0 2.018 2.222 3.234 3.95 2.267l27.804-15.568c1.706-.955 1.707-3.578 0-4.533L28.02 32.168c-2.957-1.655-5.604 2.88-2.649 4.533l27.805 15.564v-4.533L25.371 63.3l3.95 2.267V34.435c-.001-3.387-5.251-3.387-5.251-.001z"></path>
+                        <g>
+                            <path d="M55.5 34.434v31.132l27.805-15.568z"></path>
+                            <path d="M52.875 34.434v31.132c0 2.018 2.222 3.234 3.949 2.267 9.27-5.189 18.537-10.379 27.805-15.568 1.705-.955 1.705-3.578 0-4.533L56.824 32.168c-2.957-1.655-5.604 2.88-2.648 4.533l27.803 15.564v-4.533L54.176 63.3l3.949 2.267V34.435c0-3.387-5.25-3.387-5.25-.001z"></path>
+                        </g>
+                    </svg>
+                </div>
+                <div class="bar">
+                    <div class="duration"></div>
+                </div>
+            </div>
+        </div>
+        <div class="bg-msg">
+            <p class="song-name">11111</p>
+            <p class="songer">22222</p>
+        </div>
+    </div>
+
+    <script src="./js/jquery.js"></script>
+    <script src="./js/TweenMax.min.js"></script>
+    <script>
+        (function(){
+            let song = [
+                {
+                    bgSrc: './img/a1.png',
+                    songName: '你的名字',
+                    singer: '老邓',
+                    singing: './mp3/1.mp3'
+                },
+                {
+                    bgSrc: './img/a2.png',
+                    songName: 'RockSong',
+                    singer: '邓先生',
+                    singing: './mp3/2.mp3'
+                }
+            ];
+
+            let audio = document.createElement('audio'),
+                index = 0;
+            audio.setAttribute('src',song[index].singing)
+            let timeLine = $('.bar').get(0).offsetWidth;
+            let t = new TimelineMax();
+            t.to('.cd', 3,{
+                rotation : '360deg',
+                ease : Power0.easeNone,
+                repeat: -1
+            }, '-=0.2s')
+            t.pause()
+            
+            //cd的背景图
+            $('.cd').css({
+                backgroundImage : `url(${song[index].bgSrc})`
+            })
+
+            //点击播放和暂停
+            $('.control .play').click(function(){
+                //正在播放中
+                if($('.music').hasClass('playing')){
+                    $('.music').removeClass('playing');
+
+                    TweenMax.to('.cd',0.2,{
+                        scale:1,
+                        ease:Power0.easeNone
+                    })
+                    TweenMax.to('.bg-msg',0.2,{
+                        top:0,
+                        ease:Power0.easeNone
+                    })
+
+                    audio.pause();
+                    t.pause();
+                }else{ //正在暂停中
+                    $('.music').addClass('playing');
+                    
+                    TweenMax.to('.cd',0.2,{
+                        scale:1.1,
+                        ease:Power0.easeNone
+                    })
+                    TweenMax.to('.bg-msg',0.2,{
+                        top:'-50%',
+                        ease:Power0.easeNone
+                    })
+
+                    t.play();
+                    audioPlay();
+                    barLine();
+                    singerMsg();
+                }
+            })
+            function barLine(){
+                audio.addEventListener('timeupdate',function(){
+                    let duration = this.duration; //整首歌的长度
+                    let current = this.currentTime; //当前时间
+                    let percent = current / duration;
+                    $('.duration').css({
+                        width: parseInt(percent * timeLine) + 'px'
+                    })
+                })
+            }
+            function singerMsg(){
+                $('.song-name').text(song[index].songName)
+                $('.songer').text(song[index].singer)
+            }
+            function audioPlay(){
+                if($('.music').hasClass('playing')){
+                    audio.setAttribute('src', song[index].singing);
+                    audio.play();
+                    $('.cd').css({
+                        backgroundImage : `url(${song[index].bgSrc})`
+                    })
+                }
+            }
+
+            $('.prev').click(function(){
+                index--;
+                if(index < 0){
+                    index = song.length - 1;
+                }
+                $('.cd').css({
+                    backgroundImage : `url(${song[index].bgSrc})`
+                })
+                audioPlay();
+                barLine();
+                singerMsg();
+            })
+            $('.next').click(function(){
+                index++;
+                if(index >= song.length){
+                    index %= song.length;
+                }
+                $('.cd').css({
+                    backgroundImage : `url(${song[index].bgSrc})`
+                })
+                audioPlay();
+                barLine();
+                singerMsg();
+            })
+
+        })()
+    </script>
+</body>
+</html>
